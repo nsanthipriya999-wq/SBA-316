@@ -191,7 +191,13 @@ document.getElementById("submit").addEventListener("click",()=>{
         alert("ACCESS GRANTED 🔓");
          alert("Congratulations 🎉🎉🎉🎉🎉🎉You completed the Brain Blitz:Mind Game");
         localStorage.setItem("BestAttempts",attemptsDone);
-        localStorage.setItem("BestTime",time);
+        
+       let best=localStorage.getItem("BestTime");
+       if(!best||time<best){
+         localStorage.setItem("BestTime",time);
+       }
+
+        
         updateBestTime();
     }
     else{
@@ -228,13 +234,27 @@ document.getElementById("restart").addEventListener("click",()=>{
         cards.sort(()=>Math.random()-0.5);
         //restart game
         createBoard();
+        updateBestTime();
 
     }
 });
+//-----Update Best Time Function-------
+function updateBestTime(){
+    let bestTime=localStorage.getItem("BestTime");
+    if (bestTime===null)
+    {
+        bestTimeText.textContent="Best Time: --";
+
+    }
+    else
+    {
+        bestTimeText.textContent="Best Time: "+ bestTime +"s";
+    }
+}
 
 //-------------Start Game---------------------
 createBoard();
 startTimer();
-
+updateBestTime();
 
 
