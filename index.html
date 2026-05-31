@@ -16,12 +16,16 @@
        <p id="timer">Time: 0s</p>
        <p id="bestTime">Best Time:</p>
     </div>
+    <div id="gameContainer">
+      <div id="memoryBoard"></div>
+      <div id="clueContainer">
+        <h3 id ="uc">Unlocked Clues</h3>
+        <ul id="clueList"></ul>
+      </div>
+    </div>
+       <hr>
 
-    <div id="memoryBoard"></div>
-
-    <hr>
-
-    <h2>Vault Code Breaker</h2>
+      <h2>Vault Code Breaker</h2>
 
     <p id="message">Find matches to reveal clues!!</p>
 
@@ -30,6 +34,7 @@
     
     <br><br>
     <button id="restart">Restart</button>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
     
     <script src="script.js"></script>
 </body>

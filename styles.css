@@ -9,12 +9,28 @@ body{
    display:grid;
    grid-template-columns: repeat(4, 90px);
    gap:10px;
-   justify-content: center;
-   margin:20px auto;
-   
+   /*justify-content: center;
+   margin:20px auto;*/
+}  
+#gameContainer{
+  display:flex;
+  gap:30px;
+  align-items:flex-start;
+  justify-content: center;
+}
+#clueContainer
+{
+  min-width: 200px;
+  padding:10px;
+  border:2px solid #333;
+  border-radius:10px;
+  position: sticky;
+  top:20px;
 
 }
 
+#uc
+{color:chartreuse;}
 .card{
 width: 90px;
 height: 90px;

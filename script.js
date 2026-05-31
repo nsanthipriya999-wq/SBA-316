@@ -3,9 +3,10 @@ const board=document.getElementById("memoryBoard");
 const attemptsText=document.getElementById("attempts");
 const cluesText=document.getElementById("clues");
 const message=document.getElementById("message");
-const code=document.getElementById("secretCode");
+const codeInput=document.getElementById("secretCode");
 const timerText=document.getElementById("timer");
 const bestTimeText=document.getElementById("bestTime");
+const  clueListElement=document.getElementById("clueList");
 //--------------Variables-----------
 let firstCard=null;
 let secondCard=null;
@@ -31,12 +32,6 @@ const secretCode="98435267"
                 ];          
                   
 
-
-
-
-
-
-
 //---------4*4 grid =16 cards,8 pairs--------
 let cards=[   "9","9",
               "8","8",
@@ -48,8 +43,18 @@ let cards=[   "9","9",
               "7","7"];
 
 //-----------------shuffle cards-----
-cards.sort(()=>Math.random()-0.5);
-console.log(cards);
+//cards.sort(()=>Math.random()-0.5);
+//console.log(cards);
+function shuffleCards()
+{
+  for(let i=cards.length-1;i>0;i--)
+  {
+    const j=Math.floor(Math.random()*(i+1));
+    [cards[i],cards[j]]=[cards[j],cards[i]];
+
+  }
+
+}
 
 //-------------------memory board--------
 function createBoard()
@@ -80,7 +85,11 @@ function startTimer()
 //-------Flip Card--------------
 function flipCard()
 {
-  if(lock||this.classList.contains("matched")) return;
+
+  if(lock)return;
+  if(this.classList.contains("matched")) return;
+  if(this.classList.contains("flipped"))return;
+  if(this===firstCard)return;
   this.classList.add("flipped");
   this.textContent=this.dataset.value;
   if(!firstCard)
@@ -102,14 +111,13 @@ function checkMatch()
 
     if(firstCard.dataset.value===secondCard.dataset.value){
         firstCard.classList.add("matched");
-        secondCard.classList.add("matched")
-
-        cluesFound++;
-        cluesText.textContent="Clues Found:" + cluesFound;
+        secondCard.classList.add("matched");
 
         firstCard.removeEventListener("click",flipCard);
         secondCard.removeEventListener("click",flipCard);
         
+        cluesFound++;
+        cluesText.textContent="Clues Found:" + cluesFound;
         revealClue();
         checkWin();
         resetTurn();
@@ -134,18 +142,29 @@ function checkMatch()
 }
 //-----------Clues-----------------
 function revealClue()
+
 {
-     if(cluesFound<=cluesList.length)
-   {
-    message.textContent=cluesList[cluesFound-1];
+    if(cluesFound <= cluesList.length)
+    {
+        const li = document.createElement("li");
+        li.textContent = cluesList[cluesFound - 1];
+
+        
+        const clueContainer = board.nextElementSibling;
+        const clueList=clueContainer.querySelector("#clueList");
+        clueList.appendChild(li);
+
+        clueContainer.style.border="2px solid gold";
+        clueContainer.style.padding="15px";
+
+        const latest=clueList.children[clueList.children.length-1];
+        latest.style.color="white";
+        latest.style.fontWeight="bold";
 
 
+        message.textContent="🔓 New Clue Unlocked!"
 
-   }
-
-
-
-
+  }
 }
 
 //------------Reset Turn------------------
@@ -164,7 +183,7 @@ function checkWin()
 {
   const matched=document.querySelectorAll(".matched");
 
-  if(matched.length==16){
+  if(matched.length===16){
     clearInterval(timerInterval);
     setTimeout(()=>{
        message.textContent="Congratulations🎉🎉!! All Clues Found! Now crack the secret code!";
@@ -175,10 +194,22 @@ function checkWin()
   }
 
 }
+//-----Update Best Time Function-------
+function updateBestTime(){
+    let bestTime=localStorage.getItem("BestTime");
+    if (bestTime===null)
+    {
+        bestTimeText.textContent="Best Time: --";
 
+    }
+    else
+    {
+        bestTimeText.textContent="Best Time: "+ bestTime +"s";
+    }
+}
 //------------code breaker validation--
 document.getElementById("submit").addEventListener("click",()=>{
-    const guess=code.value;
+    const guess=codeInput.value.trim();
 
     //pattern matching
     if(!/^\d{8}$/.test(guess)){
@@ -189,16 +220,48 @@ document.getElementById("submit").addEventListener("click",()=>{
     
     if(guess===secretCode){
         alert("ACCESS GRANTED 🔓");
-         alert("Congratulations 🎉🎉🎉🎉🎉🎉You completed the Brain Blitz:Mind Game");
-        localStorage.setItem("BestAttempts",attemptsDone);
+       
+       confetti({
+        particleCount:200,
+        spread:90,
+        origin: { y: 0.6 }
+    });
+
+
+    
+       
+        setTimeout(()=>{
+        confetti({
+
+            particleCount:100,
+            angle:63,
+            spread:70
+
+        });
+    },300);
+
+    setTimeout(()=>{
+        confetti({
+
+            particleCount:100,
+            angle:126,
+            spread:70
+
+        });
+    },500);
+
+
+    
+    message.textContent="Congratulations 🎉🎉🎉🎉🎉🎉You completed the Brain Blitz:Mind Game";
         
-       let best=localStorage.getItem("BestTime");
-       if(!best||time<best){
+        //Saving best time in local storage
+       const bestTime=localStorage.getItem("BestTime");
+       if(!bestTime||time<Number(bestTime)){
          localStorage.setItem("BestTime",time);
        }
-
-        
+     
         updateBestTime();
+        document.getElementById("submit").disabled=true;
     }
     else{
         alert("Wrong code! Please Try Again!")
@@ -222,37 +285,33 @@ document.getElementById("restart").addEventListener("click",()=>{
         clearInterval(timerInterval);
         time=0;
         timerText.textContent="Time:0s";
-        startTimer();
+       
+
         //reset ux
         attemptsText.textContent="Attempts:0";
         cluesText.textContent="Clues Found: 0";
         message.textContent="Find Matches to reveal the code!"
        //reset code
-       code.value="";
+       codeInput.value="";
+       document.getElementById("clueList").innerHTML = "";
+       document.getElementById("submit").disabled=false;
         //clear board
         board.innerHTML="";
-        cards.sort(()=>Math.random()-0.5);
+        shuffleCards();
         //restart game
         createBoard();
+        startTimer();
         updateBestTime();
 
     }
 });
-//-----Update Best Time Function-------
-function updateBestTime(){
-    let bestTime=localStorage.getItem("BestTime");
-    if (bestTime===null)
-    {
-        bestTimeText.textContent="Best Time: --";
 
-    }
-    else
-    {
-        bestTimeText.textContent="Best Time: "+ bestTime +"s";
-    }
-}
+
+
 
 //-------------Start Game---------------------
+shuffleCards();
+//console.log(board.childNodes);
 createBoard();
 startTimer();
 updateBestTime();
