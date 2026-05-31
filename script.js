@@ -5,6 +5,7 @@ const cluesText=document.getElementById("clues");
 const message=document.getElementById("message");
 const code=document.getElementById("secretCode");
 const timerText=document.getElementById("timer");
+const bestTimeText=document.getElementById("bestTime");
 //--------------Variables-----------
 let firstCard=null;
 let secondCard=null;
@@ -190,7 +191,8 @@ document.getElementById("submit").addEventListener("click",()=>{
         alert("ACCESS GRANTED 🔓");
          alert("Congratulations 🎉🎉🎉🎉🎉🎉You completed the Brain Blitz:Mind Game");
         localStorage.setItem("BestAttempts",attemptsDone);
-        localStorage.setItem("BestTime:"+time);
+        localStorage.setItem("BestTime",time);
+        updateBestTime();
     }
     else{
         alert("Wrong code! Please Try Again!")
