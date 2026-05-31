@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brain Blitz:Mind Vault Game</title>
+    <link rel="stylesheet" href="styles.css">
+    
+</head>
+<body>
+    <h1> 🧠Brain Blitz-Mind Vault</h1>
+    
+    <div class="stats">
+       <p id="attempts">Attempts:0</p>
+       <p id="clues">Clues Found:0</p>
+    </div>
+
+    <div id="memoryBoard"></div>
+
+    <hr>
+
+    <h2>Vault Code Breaker</h2>
+
+    <p id="message">Find matches to reveal clues!!</p>
+
+    <input id="secretCode" maxlength="8" placeholder="Enter 8-digit Code" required pattern="\d{8}">
+    <button id ="submit">Submit</button>
+    
+    <br><br>
+    <button id="restart">Restart</button>
+    
+    <script src="script.js"></script>
+</body>
+</html>

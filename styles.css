@@ -1,0 +1,46 @@
+body{
+    font-family: 'Times New Roman', Times, serif;
+    text-align: center;
+    background:rgb(100, 3, 93);
+    color:white
+}
+
+#memoryBoard{
+   display:grid;
+   grid-template-columns: repeat(4, 90px);
+   gap:10px;
+   justify-content: center;
+   margin:20px auto;
+   
+
+}
+
+.card{
+width: 90px;
+height: 90px;
+background-color:#1b1d1c;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:25px;
+cursor:pointer;
+border-radius:10px;
+transition:0.3s;
+}
+
+.card.flipped{
+    background: rgb(20, 155, 192);
+    pointer-events: none;
+}
+
+.card.matched{
+    background:greenyellow;
+    pointer-events:none;
+}
+.stats
+{
+   display:flex;
+    justify-content:center;
+    gap:40px;
+    font-size:18px;
+}
