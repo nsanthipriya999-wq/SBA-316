@@ -167,7 +167,7 @@ function checkWin()
     clearInterval(timerInterval);
     setTimeout(()=>{
        message.textContent="Congratulations🎉🎉!! All Clues Found! Now crack the secret code!";
-       alert("You completed the Brain Blitz:Mind Vault game!!")
+      // alert("You completed the Brain Blitz:Mind Vault game!!")
 
     },300);
 
@@ -188,6 +188,7 @@ document.getElementById("submit").addEventListener("click",()=>{
     
     if(guess===secretCode){
         alert("ACCESS GRANTED 🔓");
+         alert("Congratulations 🎉🎉🎉🎉🎉🎉You completed the Brain Blitz:Mind Game");
         localStorage.setItem("BestAttempts",attemptsDone);
         localStorage.setItem("BestTime:"+time);
     }
@@ -218,7 +219,8 @@ document.getElementById("restart").addEventListener("click",()=>{
         attemptsText.textContent="Attempts:0";
         cluesText.textContent="Clues Found: 0";
         message.textContent="Find Matches to reveal the code!"
-
+       //reset code
+       code.value="";
         //clear board
         board.innerHTML="";
         cards.sort(()=>Math.random()-0.5);
