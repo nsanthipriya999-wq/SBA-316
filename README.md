@@ -7,6 +7,8 @@ This project has 3 files
 #index.html
   Defines the layout of the Game 
 #script.js
-  T
+  This has working logic for the game.
 #styles.css
   It included style properties for the game.
+  
+Thank you!
