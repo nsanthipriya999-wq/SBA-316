@@ -1,8 +1,10 @@
 #***BRAIN BLITZ-MIND VAULT GAME*****
 
-Brain Blitz:Mind Vault is a memory-based puzzle game where every match brings you closer to cracking a vault's digital lock.
+BRAIN BLITZ-MIND VAULT is a memory-based puzzle game where every match brings you closer to cracking a vault's digital lock.
 
 The goal is simple: Match all the card pairs to reveal clues. Each clue gives you one digit of a secret 8-digit code. Once you've found all the clues, enter the correct code to unlock the vault and win the game.
+
+Can you solve the puzzle and break into MIND VAULT!!!!!!!!!!!!!!!!!
 
 **Features:**
 * 4*4 Memory Grid ,total 16 ,8 pairs
