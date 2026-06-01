@@ -18,7 +18,8 @@ let timerInterval=null;
 //--------------secret code---------------
 const secretCode="98435267"
 
-
+const winSound=new Audio("winsound.mp3");
+winSound.volume=0.5;
         //clue list
          const cluesList=[ 
                 "First Digit is 9",
@@ -220,7 +221,7 @@ document.getElementById("submit").addEventListener("click",()=>{
     
     if(guess===secretCode){
         alert("ACCESS GRANTED 🔓Congratulations 🎉🎉🎉🎉🎉🎉You completed the Brain Blitz:Mind Game");
-       
+        winSound.play();
        confetti({
         particleCount:2000,
         spread:200,
