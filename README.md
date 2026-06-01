@@ -17,7 +17,12 @@ The goal is simple: Match all the card pairs to reveal clues. Each clue gives yo
 **How to Play**
 1.Click on a card to reveal its value.
 2.Select a second card.
-3
+3.3.If both cards match,they stay visible and a clue is unlocked.
+4.If they don't match ,they flip back over.
+5.Collect all 8 clues.
+6.Use the clues to figure out the secret code.
+7.Enter the code and unlock the vault.
+
 
 This project has 3 files 
 #index.html
