@@ -297,7 +297,7 @@ document.getElementById("restart").addEventListener("click",()=>{
 //--------------------------------------clear board---------------------------------------------------------
         board.innerHTML="";
         shuffleCards();
-        //restart game
+//---------------------------------------restart game------------------------------------------------------------
         createBoard();
         startTimer();
         updateBestTime();
