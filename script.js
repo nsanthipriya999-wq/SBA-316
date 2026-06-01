@@ -6,7 +6,7 @@ const message=document.getElementById("message");
 const codeInput=document.getElementById("secretCode");
 const timerText=document.getElementById("timer");
 const bestTimeText=document.getElementById("bestTime");
-//const  clueListElement=document.getElementById("clueList");
+
 //--------------Variables-----------
 let firstCard=null;
 let secondCard=null;
@@ -15,12 +15,15 @@ let attemptsDone=0;
 let cluesFound=0;
 let time=0;
 let timerInterval=null;
-//--------------secret code---------------
+
+//--------------secret code---------------------------------------
 const secretCode="98435267"
 
+//-----------------Sound plays at the completion of game-----------
 const winSound=new Audio("winsound.mp3");
-winSound.volume=0.5;
-        //clue list
+winSound.volume=0.3;
+
+//--------------------clue list----------------------------------------
          const cluesList=[ 
                 "First Digit is 9",
                 "Second Digit is 8",
@@ -32,7 +35,6 @@ winSound.volume=0.5;
                 "Eight Digit is 7"
                 ];          
                   
-
 //---------4*4 grid =16 cards,8 pairs--------
 let cards=[   "9","9",
               "8","8",
@@ -43,9 +45,7 @@ let cards=[   "9","9",
               "6","6",
               "7","7"];
 
-//-----------------shuffle cards-----
-//cards.sort(()=>Math.random()-0.5);
-//console.log(cards);
+//-----------------shuffle cards-----------------------------
 function shuffleCards()
 {
   for(let i=cards.length-1;i>0;i--)
@@ -57,7 +57,7 @@ function shuffleCards()
 
 }
 
-//-------------------memory board--------
+//-------------------memory board--and individual cards creation---------------------------------
 function createBoard()
 {
     const fragment=document.createDocumentFragment();
@@ -73,24 +73,23 @@ function createBoard()
   board.appendChild(fragment);
 }
 
-//------Start Timer-------------
+//-----------------------------------Start Timer------------------------------
 function startTimer()
 {
-  timerInterval=setInterval(()=>{
+  timerInterval=setInterval(()=>{                                             //Starter Time
    time++;
    timerText.textContent="Time:"+time+"s";
 
   },1000);
 
 }
-//-------Flip Card--------------
+//-----------------------------------------Flip Card-------------------------------------
 function flipCard()
 {
-
-  if(lock)return;
+  if(lock)return;                                                      //lock becomes true when two cards matched.
   if(this.classList.contains("matched")) return;
-  if(this.classList.contains("flipped"))return;
-  if(this===firstCard)return;
+  if(this.classList.contains("flipped"))return;                        //If any card is already flipped
+  if(this===firstCard)return;                                          //in case of first card
   this.classList.add("flipped");
   this.textContent=this.dataset.value;
   if(!firstCard)
@@ -100,9 +99,9 @@ function flipCard()
 
   }
  secondCard=this;
- attemptsDone++;
+ attemptsDone++;                                                      //Moves Counter
  attemptsText.textContent="Moves:"+attemptsDone;
- checkMatch();
+ checkMatch();                                                        //Check for a matched pair.
  
 }
 
@@ -111,21 +110,21 @@ function checkMatch()
 {
 
     if(firstCard.dataset.value===secondCard.dataset.value){
-        firstCard.classList.add("matched");
+        firstCard.classList.add("matched");                         //if first card value matches with second card
         secondCard.classList.add("matched");
 
         firstCard.removeEventListener("click",flipCard);
         secondCard.removeEventListener("click",flipCard);
         
         cluesFound++;
-        cluesText.textContent="Clues Found:" + cluesFound;
+        cluesText.textContent="Clues Found:" + cluesFound;           //clues counter
         revealClue();
         checkWin();
         resetTurn();
    }
    else 
    {
-    lock=true;
+    lock=true;                                                         
     setTimeout(()=>{
     firstCard.textContent="?";
     secondCard.textContent="?";
