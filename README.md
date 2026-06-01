@@ -1,4 +1,4 @@
-#BRAIN BLITZ-MIND VAULT GAME
+#<BRAIN BLITZ-MIND VAULT GAME>
 
 A fun memory-matching game built using HTML, CSS, and JavaScript.
 
