@@ -9,8 +9,6 @@ body{
    display:grid;
    grid-template-columns: repeat(4, 90px);
    gap:10px;
-   /*justify-content: center;
-   margin:20px auto;*/
 }  
 #gameContainer{
   display:flex;
@@ -29,8 +27,15 @@ body{
 
 }
 
+#clueList
+{
+    display:flex;
+    flex-direction:column;
+    align-items:flex-start;
+}
 #uc
 {color:chartreuse;}
+
 .card{
 width: 90px;
 height: 90px;
@@ -50,7 +55,7 @@ transition:0.3s;
 }
 
 .card.matched{
-    background:greenyellow;
+    background:rgb(128, 191, 32);
     pointer-events:none;
 }
 .stats
