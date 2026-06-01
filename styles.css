@@ -33,9 +33,16 @@ body{
     flex-direction:column;
     align-items:flex-start;
 }
-#uc
-{color:chartreuse;}
 
+#uc
+{
+    color:chartreuse;
+}
+
+#submit,#restart
+{
+    background-color:skyblue;
+}
 .card{
 width: 90px;
 height: 90px;

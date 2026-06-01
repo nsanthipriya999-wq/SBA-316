@@ -23,7 +23,7 @@ const secretCode="98435267"
 const winSound=new Audio("winsound.mp3");
 winSound.volume=0.3;
 
-//--------------------clue list----------------------------------------
+//--------------------clue list--Array--------------------------------------
          const cluesList=[ 
                 "First Digit is 9",
                 "Second Digit is 8",
@@ -48,10 +48,10 @@ let cards=[   "9","9",
 //-----------------shuffle cards-----------------------------
 function shuffleCards()
 {
-  for(let i=cards.length-1;i>0;i--)
+  for(let i=cards.length-1;i>0;i--)                                   //loops from last one to first card
   {
     const j=Math.floor(Math.random()*(i+1));
-    [cards[i],cards[j]]=[cards[j],cards[i]];
+    [cards[i],cards[j]]=[cards[j],cards[i]];                         // swap cards
 
   }
 
@@ -70,7 +70,7 @@ function createBoard()
        card.addEventListener("click",flipCard);
        fragment.appendChild(card);
 });
-  board.appendChild(fragment);
+  board.appendChild(fragment);                                         //add all cards to board at once
 }
 
 //-----------------------------------Start Timer------------------------------
@@ -80,20 +80,20 @@ function startTimer()
    time++;
    timerText.textContent="Time:"+time+"s";
 
-  },1000);
+  },1000);                                                                   //1000ms=1sec
 
 }
 //-----------------------------------------Flip Card-------------------------------------
 function flipCard()
 {
-  if(lock)return;                                                      //lock becomes true when two cards matched.
+  if(lock)return;                                                      //ignore in case of two matched cards.
   if(this.classList.contains("matched")) return;
   if(this.classList.contains("flipped"))return;                        //If any card is already flipped
-  if(this===firstCard)return;                                          //in case of first card
+  if(this===firstCard)return;                                          //prevents double clicking the same card
   this.classList.add("flipped");
-  this.textContent=this.dataset.value;
-  if(!firstCard)
-  {
+  this.textContent=this.dataset.value;                                 //shows the actual number/value
+  if(!firstCard)                                                       //if no card selected
+  { 
     firstCard=this;
     return;
 
@@ -105,7 +105,7 @@ function flipCard()
  
 }
 
-//----------------Check Match-------------
+//--------------------------------------Check Match-----------------------------------
 function checkMatch()
 {
 
@@ -113,18 +113,18 @@ function checkMatch()
         firstCard.classList.add("matched");                         //if first card value matches with second card
         secondCard.classList.add("matched");
 
-        firstCard.removeEventListener("click",flipCard);
+        firstCard.removeEventListener("click",flipCard);           //inorder to avoid clicking them again
         secondCard.removeEventListener("click",flipCard);
         
         cluesFound++;
         cluesText.textContent="Clues Found:" + cluesFound;           //clues counter
-        revealClue();
+        revealClue();                                            
         checkWin();
         resetTurn();
    }
    else 
    {
-    lock=true;                                                         
+    lock=true;                                                         //prevents clicking
     setTimeout(()=>{
     firstCard.textContent="?";
     secondCard.textContent="?";
@@ -146,8 +146,8 @@ function revealClue()
 {
     if(cluesFound <= cluesList.length)
     {
-        const li = document.createElement("li");
-        li.textContent = cluesList[cluesFound - 1];
+        const li = document.createElement("li");                         //new list item
+        li.textContent = cluesList[cluesFound - 1];                     //retrieves clue from array
 
         
         const clueContainer = board.nextElementSibling;
@@ -183,12 +183,10 @@ function checkWin()
 {
   const matched=document.querySelectorAll(".matched");
 
-  if(matched.length===cards.length){
-    clearInterval(timerInterval);
+  if(matched.length===cards.length){                                               //count matched cards
+    clearInterval(timerInterval);                                                  //if all cards matched,stop the timer
     setTimeout(()=>{
        message.textContent="Congratulations🎉🎉!! All Clues Found! Now crack the secret code!";
-      // alert("You completed the Brain Blitz:Mind Vault game!!")
-
     },300);
 
   }
@@ -196,7 +194,7 @@ function checkWin()
 }
 //-----Update Best Time Function-------
 function updateBestTime(){
-    let bestTime=localStorage.getItem("BestTime");
+    let bestTime=localStorage.getItem("BestTime");                    //saved time from LocalStorage
     if (bestTime===null)
     {
         bestTimeText.textContent="Best Time: --";
@@ -212,7 +210,7 @@ document.getElementById("submit").addEventListener("click",()=>{
     const guess=codeInput.value.trim();
 
     //pattern matching
-    if(!/^\d{8}$/.test(guess)){
+    if(!/^\d{8}$/.test(guess)){                                                 //secret code validation for 8 numbers.
        alert("Enter a valid 8 digit Code, accepts only  numbers!");
        return;
 
@@ -220,7 +218,8 @@ document.getElementById("submit").addEventListener("click",()=>{
     
     if(guess===secretCode){
         alert("ACCESS GRANTED 🔓Congratulations 🎉🎉🎉🎉🎉🎉You completed the Brain Blitz:Mind Game");
-        winSound.play();
+        
+   winSound.play();                                                //Game winning sound
        confetti({
         particleCount:2000,
         spread:200,
@@ -228,7 +227,7 @@ document.getElementById("submit").addEventListener("click",()=>{
     });
 
 
-    
+    //-------------------------------Confetti--Celebration-----------------------------------------
        
         setTimeout(()=>{
         confetti({
@@ -249,12 +248,10 @@ document.getElementById("submit").addEventListener("click",()=>{
 
         });
     },500);
-
-
     
     message.textContent="Congratulations 🎉🎉🎉🎉🎉🎉You completed the Brain Blitz:Mind Game";
         
-        //Saving best time in local storage
+//-------------------------Saving best time in local storage-------------------------------------------
        const bestTime=localStorage.getItem("BestTime");
        if(!bestTime||time<Number(bestTime)){
          localStorage.setItem("BestTime",time);
@@ -270,32 +267,34 @@ document.getElementById("submit").addEventListener("click",()=>{
 
 });
 
-//-----Restart Game------------------
+//---------------------------------------Restart Game-------------------------------------------
 document.getElementById("restart").addEventListener("click",()=>{
     if(confirm("Restart Brain Blitz?")){
-        //reset variables
+//----------------------------------------Reset variables----------------------------------------
         attemptsDone=0;
         cluesFound=0;
         firstCard=null;
         secondCard=null;
         lock=false;
 
-        //reset timer
+//------------------------------------------Reset timer------------------------------------------------------
 
         clearInterval(timerInterval);
         time=0;
         timerText.textContent="Time:0s";
        
 
-        //reset ux
+    //---------------------------------------------reset user stats-----------------------------------------
+
         attemptsText.textContent="Moves:0";
         cluesText.textContent="Clues Found: 0";
         message.textContent="Find Matches to reveal the code!"
-       //reset code
+
+  //------------------------------------------reset code------------------------------------------------
        codeInput.value="";
        document.getElementById("clueList").innerHTML = "";
-       document.getElementById("submit").disabled=false;
-        //clear board
+       document.getElementById("submit").disabled=false;               //to prevent clicking submit multiple times
+//--------------------------------------clear board---------------------------------------------------------
         board.innerHTML="";
         shuffleCards();
         //restart game
@@ -309,9 +308,8 @@ document.getElementById("restart").addEventListener("click",()=>{
 
 
 
-//-------------Start Game---------------------
+//--------------------------------------------------Start Game---------------------
 shuffleCards();
-//console.log(board.childNodes);
 createBoard();
 startTimer();
 updateBestTime();
